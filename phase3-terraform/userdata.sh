@@ -4,7 +4,7 @@ set -e
 apt update -y
 apt install -y nginx git wget apt-transport-https software-properties-common
 
-wget https://packages.microsoft.com/config/ubuntu/24.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+wget https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
 dpkg -i packages-microsoft-prod.deb
 
 apt update -y
