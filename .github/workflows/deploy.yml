@@ -1,0 +1,51 @@
+name: Phase 3 CI/CD - ElectroGO
+
+on:
+  push:
+    branches:
+      - phase3-cicd
+  pull_request:
+    branches:
+      - phase3-cicd
+
+jobs:
+  build-test-terraform-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Code Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore Dependencies
+        run: dotnet restore
+
+      - name: Build Application
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Test Application
+        run: dotnet test --no-build --verbosity normal
+        continue-on-error: true
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init
+        working-directory: phase3-terraform
+        run: terraform init
+
+      - name: Terraform Plan
+        working-directory: phase3-terraform
+        run: terraform plan -var="db_password=${{ secrets.DB_PASSWORD }}"
+
+      - name: Terraform Apply
+        working-directory: phase3-terraform
+        run: terraform apply -auto-approve -var="db_password=${{ secrets.DB_PASSWORD }}"
+
+      - name: Show Terraform Outputs
+        working-directory: phase3-terraform
+        run: terraform output

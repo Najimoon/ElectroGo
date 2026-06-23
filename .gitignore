@@ -48,3 +48,4 @@ project.fragment.lock.json
 # OS files
 Thumbs.db
 .DS_Store
+phase3-terraform/terraform.tfvars
