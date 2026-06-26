@@ -1,6 +1,10 @@
 #!/bin/bash
 set -e
 
+export HOME=/root
+export DOTNET_CLI_HOME=/root
+export DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1
+
 apt update -y
 apt install -y nginx git wget apt-transport-https software-properties-common
 
