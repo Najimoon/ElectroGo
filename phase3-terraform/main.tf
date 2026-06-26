@@ -230,6 +230,7 @@ resource "aws_instance" "app_server" {
   key_name               = var.key_name
   iam_instance_profile   = aws_iam_instance_profile.ec2_profile.name
   user_data              = file("${path.module}/userdata.sh")
+  user_data_replace_on_change = true
 
   tags = {
     Name = "phase3-electrogo-ec2"
